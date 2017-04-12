@@ -1,40 +1,104 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# ElasticAdmin
+A web front end for browsing and interacting with Elastic Search for Laravel PHP Framework
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## ElasticAdmin Requirements
+ElasticAdmin is born on top of Elastiquent, you must be running at least Elasticsearch 1.0. Elasticsearch 0.9 and below will not work and are not supported.
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+run commands:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    > composer dump-autoload -o
+    > composer update
+    > php artisan vendor:publish --force
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+Now replace the following code on:
 
-## Learning Laravel
+_App\Config\elastiquent.php_
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+     |--------------------------------------------------------------------------
+     | Custom Elasticsearch Client Configuration
+     |--------------------------------------------------------------------------
+     |
+     | This array will be passed to the Elasticsearch client.
+     | See configuration options here:
+     |
+     | http://www.elasticsearch.org/guide/en/elasticsearch/client/php-api/current/_configuration.html
+     */
+ 
+     'config' => [
+         'hosts'     => [env('ELS_SERVER','localhost')],
+         'retries'   => 1,
+     ],
+ 
+     'max_result' => env('ELS_MAX_RESULT',10000000),
+ 
+     /*
+     |--------------------------------------------------------------------------
+     | Default Index Name
+     |--------------------------------------------------------------------------
+     |
+     | This is the index name that Elasticquent will use for all
+     | Elasticquent models.
+     */
+ 
+     'default_index' => env('ELS_INDEX','index'),
+     'user_index' => env('ELS_INDEX_USER','index-user'),
+  
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+The .env of DEFAULT DEVELOPMENT ENVIRONMENT:
 
-## Security Vulnerabilities
+       APP_ENV=local
+       APP_KEY=base64:eYkj/0FsuEPVGpn6gadTuegrzje33kGhEwarfrdN4/4=
+       APP_DEBUG=true
+       APP_LOG_LEVEL=debug
+       APP_URL=http://localhost
+       
+       APP_NAME=ELSADMIN
+       
+       DB_CONNECTION=mysql
+       DB_HOST=127.0.0.1
+       DB_PORT=3306
+       DB_DATABASE=homestead
+       DB_USERNAME=homestead
+       DB_PASSWORD=secret
+       
+       BROADCAST_DRIVER=log
+       CACHE_DRIVER=file
+       SESSION_DRIVER=file
+       QUEUE_DRIVER=sync
+       
+       REDIS_HOST=127.0.0.1
+       REDIS_PASSWORD=null
+       REDIS_PORT=6379
+       
+       MAIL_DRIVER=smtp
+       MAIL_HOST=smtp.mailtrap.io
+       MAIL_PORT=2525
+       MAIL_USERNAME=null
+       MAIL_PASSWORD=null
+       MAIL_ENCRYPTION=null
+       
+       PUSHER_APP_ID=
+       PUSHER_APP_KEY=
+       PUSHER_APP_SECRET=
+       
+       ELS_MAX_RESULT=20
+    
+       ELS_SERVER=localhost
+       ELS_INDEX=index
+       ELS_INDEX_USER=index-user
+    
+    
+**_NB_**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+> edit the .env file with the right configuration parameters
+> for the application you will develp 
+> i.e. all the ELS_* parameters, etc...
 
-## License
+_**You need to set-up your own Index, your own Server and configure it in .env (ELS_SERVER, ELS_INDEX_USER)**_
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+run key re-generation command:
+
+    > php artisan key:generate

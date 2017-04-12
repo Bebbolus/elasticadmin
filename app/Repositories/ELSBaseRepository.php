@@ -25,11 +25,11 @@ class ELSBaseRepository
 
     public function __construct($model, $type, $index = '', $uniqueKey = 'code', $isModel = true)
     {
-        if ($index == '') $this->index = config('elasticquent.default_index','edm');
+        if ($index == '') $this->index = config('elasticquent.default_index','index');
         else $this->index = $index;
         $this->type = $type;
         $this->maxResultsSize = config('elasticquent.max_result',1000000);
-        $this->client = $client = ClientBuilder::create()->setHosts(config('elasticquent.config.hosts','10.1.3.7:9200'))->build();
+        $this->client = $client = ClientBuilder::create()->setHosts(config('elasticquent.config.hosts','localhost'))->build();
         $this->model = $model;
         $this->uniqueKey = $uniqueKey;
         $this->isModel = $isModel;

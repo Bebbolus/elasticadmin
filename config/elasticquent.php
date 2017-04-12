@@ -14,7 +14,7 @@ return array(
     */
 
     'config' => [
-        'hosts'     => [env('ELS_SERVER','10.1.3.7:9200')],
+        'hosts'     => [env('ELS_SERVER','localhost')],
         'retries'   => 1,
     ],
 
@@ -29,7 +29,7 @@ return array(
     | Elasticquent models.
     */
 
-    'default_index' => env('ELS_INDEX','edm-ermes-test'),
-    'user_index' => env('ELS_INDEX_USER','edm-ermes-test-user'),
+    'default_index' => env('ELS_INDEX','index'),
+    'user_index' => env('ELS_INDEX_USER','index-user'),
 
 );

@@ -18,7 +18,7 @@ class EntityController extends Controller
 
     public function __construct()
     {
-        $this->client = ClientBuilder::create()->setHosts(config('elasticquent.config.hosts', '10.1.3.7:9200'))->build();
+        $this->client = ClientBuilder::create()->setHosts(config('elasticquent.config.hosts', 'localhost'))->build();
     }
 
     public function index()
