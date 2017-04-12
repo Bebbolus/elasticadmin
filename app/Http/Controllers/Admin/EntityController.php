@@ -10,6 +10,7 @@ use Elasticsearch\ClientBuilder;
 use Elasticsearch\Common\Exceptions\Curl\CouldNotConnectToHost;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use Illuminate\Support\Facades\Validator;
 
 class EntityController extends Controller
@@ -24,23 +25,26 @@ class EntityController extends Controller
     public function index()
     {
         $filters = [];
+         try {
+             if (request()->has('filters[index]')) {
+                 $filters['index'] = request()->get('filters[index]');
+             } else {
+                 $filters['index'] = '';
+                 $index = $this->client->indices()->getMapping();
+             }
 
-        if (request()->has('filters[index]')) {
-            $filters['index'] = request()->get('filters[index]');
-        } else {
-            $filters['index'] = '';
-            $index = $this->client->indices()->getMapping();
-        }
-
-        return view('admin.manage_entity.global_search', [
-            'indices' => $index,
-            'filters' => $filters,
-            'results' => [],
-            'hits' => 0,
-            'pagehit' => 0,
-            'tableHead' => '',
-            'type' => ''
-        ]);
+             return view('admin.manage_entity.global_search', [
+                 'indices' => $index,
+                 'filters' => $filters,
+                 'results' => [],
+                 'hits' => 0,
+                 'pagehit' => 0,
+                 'tableHead' => '',
+                 'type' => ''
+             ]);
+         }catch(NoNodesAvailableException $e){
+            return redirect()->to('/')->with('success_message', 'No ElasticSearch Nodes Available');
+         }
     }
 
     // TODO Fatta da fare paginazione
