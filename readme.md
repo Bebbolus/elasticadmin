@@ -4,49 +4,6 @@ A web front end for browsing and interacting with Elastic Search for Laravel PHP
 ## ElasticAdmin Requirements
 ElasticAdmin is born on top of Elastiquent, you must be running at least Elasticsearch 1.0. Elasticsearch 0.9 and below will not work and are not supported.
 
-
-run commands:
-
-    > composer dump-autoload -o
-    > composer update
-    > php artisan vendor:publish --force
-
-Now replace the following code on:
-
-_App\Config\elastiquent.php_
-
-
-     |--------------------------------------------------------------------------
-     | Custom Elasticsearch Client Configuration
-     |--------------------------------------------------------------------------
-     |
-     | This array will be passed to the Elasticsearch client.
-     | See configuration options here:
-     |
-     | http://www.elasticsearch.org/guide/en/elasticsearch/client/php-api/current/_configuration.html
-     */
- 
-     'config' => [
-         'hosts'     => [env('ELS_SERVER','localhost')],
-         'retries'   => 1,
-     ],
- 
-     'max_result' => env('ELS_MAX_RESULT',10000000),
- 
-     /*
-     |--------------------------------------------------------------------------
-     | Default Index Name
-     |--------------------------------------------------------------------------
-     |
-     | This is the index name that Elasticquent will use for all
-     | Elasticquent models.
-     */
- 
-     'default_index' => env('ELS_INDEX','index'),
-     'user_index' => env('ELS_INDEX_USER','index-user'),
-  
-
-
 The .env of DEFAULT DEVELOPMENT ENVIRONMENT:
 
        APP_ENV=local
