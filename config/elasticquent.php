@@ -18,7 +18,7 @@ return array(
         'retries'   => 1,
     ],
 
-    'max_result' => env('ELS_MAX_RESULT',10000000),
+    'max_result' => env('ELS_MAX_RESULT',20),
 
     /*
     |--------------------------------------------------------------------------

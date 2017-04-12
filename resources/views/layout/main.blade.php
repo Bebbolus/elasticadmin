@@ -32,7 +32,7 @@
 	</div>
 	<!-- /#wrapper -->
 @include('layout.includes.javascripts')
-
+@yield('page_scripts')
 
 </body>
 </html>

@@ -10465,11 +10465,11 @@ $(document).ready(function () {
         prevTab($active);
     });
 
-    $("#select_index_input").on("change ready", function (e) {
+    $("#select_index_input").click(function (e) {
         changeIndexValue(this.value, $("#select_type_input").val());
     });
 
-    $("#select_type_input").change(function (e) {
+    $("#select_type_input").click(function (e) {
         showTypeMeta($("#select_index_input").val(), this.value);
     });
 });

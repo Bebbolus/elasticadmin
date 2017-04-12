@@ -28,7 +28,7 @@ class ELSBaseRepository
         if ($index == '') $this->index = config('elasticquent.default_index','index');
         else $this->index = $index;
         $this->type = $type;
-        $this->maxResultsSize = config('elasticquent.max_result',1000000);
+        $this->maxResultsSize = config('elasticquent.max_result',20);
         $this->client = $client = ClientBuilder::create()->setHosts(config('elasticquent.config.hosts','localhost'))->build();
         $this->model = $model;
         $this->uniqueKey = $uniqueKey;
@@ -107,7 +107,8 @@ class ELSBaseRepository
         $searchParams['index'] = $this->index;
         $searchParams['type'] = $this->type;
         $searchParams['size'] = $this->maxResultsSize;
-        $searchParams['from'] = $page * $this->maxResultsSize;
+        if($this->isModel) $searchParams['from'] = $page * $this->maxResultsSize;
+        else $searchParams['from'] = ($page - 1) * $this->maxResultsSize;
         $searchParams['body']['query']['bool']['must'] = [];
         $searchParams['_source_exclude']= ['PAG*'];
 

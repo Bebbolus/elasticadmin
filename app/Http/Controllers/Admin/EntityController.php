@@ -37,6 +37,7 @@ class EntityController extends Controller
             'filters' => $filters,
             'results' => [],
             'hits' => 0,
+            'pagehit' => 0,
             'tableHead' => '',
             'type' => ''
         ]);
@@ -63,12 +64,21 @@ class EntityController extends Controller
 
         if ((!request()->has('id')) AND (request()->has('operation') AND request()->get('operation') !== "create")) {
 
+            $page =1;
+            if(request()->has('pagehit')) $page = (request()->input('pagehit') / (config('elasticquent.max_result','20')));
+
+
             $model = new GenericEntity($type, $index);
+
+            $input = ['metadata'=>[]];
+            if(request()->has('metadata'))$input = request()->only('metadata');
+
+
             try {
-                $input = request()->only('metadata');
+
                 $purgedInput = array_map('array_filter', $input);
 
-                $results = $model->get($purgedInput['metadata']);
+                $results = $model->get($purgedInput['metadata'], [], $page);
             } catch (CouldNotConnectToHost $e) {
                 return back()->with('error_message', 'Spiacenti, il servizio non è disponibile');
             } catch (EntityNotFoundException $e) {
@@ -93,11 +103,14 @@ class EntityController extends Controller
                 $finalResults[] = $element;
             }
 
+
+
             return view('admin.manage_entity.global_search', [
                 'indices' => $indices = $this->client->indices()->getMapping(),
                 'filters' => $request['filters'],
                 'results' => $finalResults,
                 'hits' => $results['hits']['total'],
+                'pagehit' => $page,
                 'tableHead' => $tableHead,
                 'type' => $type
             ]);
@@ -167,7 +180,7 @@ class EntityController extends Controller
             $validationRules[$item[0]] = $item[2];
         }
 
-        $validator = \Validator::make($request->all(), $validationRules);
+        $validator = \Validator::make(request()->all(), $validationRules);
         if ($validator->fails()) {
             $messages = $validator->errors();
             $msg = '';
@@ -179,7 +192,7 @@ class EntityController extends Controller
                 ->withInput();
         }
 
-        $input = $request->except('_token');
+        $input = request()->except('_token');
         foreach ($input as $k => $v) {
             if ($v == '') {
                 unset($input[$k]);
