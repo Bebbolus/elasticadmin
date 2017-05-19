@@ -43,7 +43,7 @@ class EntityController extends Controller
                  'type' => ''
              ]);
          }catch(NoNodesAvailableException $e){
-            return redirect()->to('/')->with('success_message', 'No ElasticSearch Nodes Available');
+             return redirect()->to('/')->with('error_message', 'No ElasticSearch Nodes Available');
          }
     }
 
