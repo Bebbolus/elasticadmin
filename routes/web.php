@@ -13,21 +13,19 @@
 
 Route::get('/', function () {
 
-    $ch = curl_init(env('ELS_SERVER', 'localhost'));
-    curl_setopt($ch, CURLOPT_NOBODY, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 2); //timeout in seconds
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_exec($ch);
-    $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    if (200==$retcode) {
-        return view('home');
-    } else {
-        return 'Sorry, no Alive ElasticSearch Server found. Please check your environment and configuration';
-    }
-
-
-
+//    $ch = curl_init(env('ELS_SERVER', 'localhost'));
+//    curl_setopt($ch, CURLOPT_NOBODY, true);
+//    curl_setopt($ch, CURLOPT_TIMEOUT, 2); //timeout in seconds
+//    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+//    curl_exec($ch);
+//    $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//    curl_close($ch);
+//    if (200==$retcode) {
+//        return view('home');
+//    } else {
+//        return 'Sorry, no Alive ElasticSearch Server found. Please check your environment and configuration';
+//    }
+    return view('home');
 });
 //Manage Entity
 Route::get('/entity', 'Admin\\EntityController@index');
